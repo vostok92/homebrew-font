@@ -19,20 +19,19 @@ class Ricty < Formula
   option "without-fullwidth", "Disable fullwidth ambiguous characters"
   option "without-visible-space", "Disable visible zenkaku space"
   option "with-patch-in-place", "Patch Powerline glyphs directly into Ricty fonts without creating new 'for Powerline' fonts"
-  option "without-backquote-fix", "Disable backquote fix"
 
   depends_on "fontforge" => :build
 
   resource "inconsolataregular" do
-    url "https://github.com/google/fonts/raw/f0e90b27b6e567af9378952a37bc8cf29e2d88e9/ofl/inconsolata/Inconsolata-Regular.ttf"
-    sha256 "e28c150b4390e5fd59aedc2c150b150086fbcba0b4dbde08ac260d6db65018d6"
-    version "f0e90b2"
+    url "https://github.com/google/fonts/raw/0f203e3740b5eb77e0b179dff1e5869482676782/ofl/inconsolata/static/Inconsolata-Regular.ttf" 
+    sha256 "0f11ac40d1618e1aa1adb7322a14980a0b0c943421124022073f83236d15f0d5"
+    version "0f203e3"
   end
 
   resource "inconsolatabold" do
-    url "https://github.com/google/fonts/raw/f0e90b27b6e567af9378952a37bc8cf29e2d88e9/ofl/inconsolata/Inconsolata-Bold.ttf"
-    sha256 "c268fae6dbf17a27f648218fac958b86dc38e169f6315f0b02866966f56b42bf"
-    version "f0e90b2"
+    url "https://github.com/google/fonts/raw/0f203e3740b5eb77e0b179dff1e5869482676782/ofl/inconsolata/static/Inconsolata-Bold.ttf"
+    sha256 "69deb4d3626bcdce00331458e62de49e0ae58236626841014939dd8c5119abb4"
+    version "0f203e3"
   end
 
   resource "migu1mfonts" do
@@ -65,12 +64,6 @@ class Ricty < Formula
       Dir["Ricty*.ttf"].each do |ttf|
         system "fontforge", "-lang=py", "-script", buildpath/"scripts/powerline-fontpatcher", *powerline_args, ttf
         mv ttf.gsub(/#{rename_from}/, rename_to), ttf if build.with? "patch-in-place"
-      end
-    end
-
-    if build.with? "backquote-fix"
-      Dir["Ricty*.ttf"].each do |ttf|
-        system "fontforge", "-lang=ff", "-c", "Open($1);Select(0u0060);SetGlyphClass(\"base\");Generate($1)", ttf
       end
     end
 
